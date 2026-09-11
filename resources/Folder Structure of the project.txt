@@ -1,0 +1,72 @@
+SIH 26006/
+│
+├── backend/                        # Python FastAPI Backend
+│   ├── app/
+│   │   ├── __init__.py
+│   │   ├── main.py                 # FastAPI entry point & CORS configuration
+│   │   │
+│   │   ├── api/                    # API Route Handlers
+│   │   │   ├── __init__.py
+│   │   │   ├── v1/
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── cargo_request.py# Cargo input submission endpoints
+│   │   │   │   ├── forecast.py     # 7/30-day ML freight forecast & SHAP endpoints
+│   │   │   │   └── optimize.py     # OR-Tools procurement & vessel selection endpoints[cite: 1]
+│   │   │
+│   │   ├── core/                   # Core Configurations & Data Ingestion
+│   │   │   ├── __init__.py
+│   │   │   ├── config.py           # System settings, paths, and environment variables
+│   │   │   └── data_loader.py      # Startup CSV ingestion into pandas/SQLite DataFrames[cite: 1]
+│   │   │
+│   │   ├── engine/                 # Core Analytics & Business Logic Engines
+│   │   │   ├── __init__.py
+│   │   │   ├── landed_cost.py      # Total Landed Cost equation & draft/gearing feasibility[cite: 1]
+│   │   │   ├── forecaster.py       # XGBoost / TimeSeriesSplit model & SHAP explainer[cite: 1]
+│   │   │   └── optimizer.py        # Google OR-Tools MILP optimization & lighterage triggers[cite: 1]
+│   │   │
+│   │   └── schemas/                # Data Validation Schemas
+│   │       ├── __init__.py
+│   │       └── payload.py          # Pydantic schemas for requests, responses, and 10 tables[cite: 1]
+│   │
+│   ├── data/                       # CSV Seed Files (The 10 Extended Master Tables)
+│   │   ├── port_master.csv         # Depths, draft limits, shore crane requirements[cite: 1]
+│   │   ├── vessel_master.csv       # DWT, LOA, beam, charter rates, gearing[cite: 1]
+│   │   ├── vessel_port_compat.csv  # Draft, LOA, beam feasibility matrix[cite: 1]
+│   │   ├── market_data.csv         # Freight rates, bunker prices, USD/INR, indices[cite: 1]
+│   │   ├── voyage_data.csv         # Historical voyage costs and deadfreight fees[cite: 1]
+│   │   ├── voyage_legs.csv         # Multi-port legs and fuel requirements[cite: 1]
+│   │   ├── transshipment_data.csv  # Sandheads lighterage triggers & costs[cite: 1]
+│   │   ├── route_data.csv          # Distances, canal transit, weather/piracy risk[cite: 1]
+│   │   ├── cargo_request.csv      # Incoming request log[cite: 1]
+│   │   └── tax_tariff_data.csv     # Customs duty, IGST, tariffs[cite: 1]
+│   │
+│   ├── models_artifacts/           # Serialized Model Weights
+│   │   └── xgb_freight_model.json  # Saved XGBoost model file
+│   │
+│   ├── requirements.txt            # Python dependencies (fastapi, pandas, xgboost, ortools, shap)[cite: 1]
+│   └── .env.example                # Sample environment variables
+│
+├── frontend/                       # React.js Frontend UI Application
+│   ├── public/
+│   │   └── favicon.ico
+│   ├── src/
+│   │   ├── assets/                 # Map markers, custom icons, logos
+│   │   ├── components/             # Reusable UI Components
+│   │   │   ├── CargoRequestForm.jsx# Stage 1 user input form[cite: 1]
+│   │   │   ├── FreightForecast.jsx # 7/30-day forecast chart & SHAP driver breakdown[cite: 1]
+│   │   │   ├── FeasibilityMatrix.jsx# Direct vs Lighterage comparison table[cite: 1]
+│   │   │   ├── RouteMap.jsx        # Interactive Leaflet route map[cite: 1]
+│   │   │   ├── LandedCostBreakdown.jsx # Itemized landed cost per MT display[cite: 1]
+│   │   │   └── ProcurementBadge.jsx# "Book Now" vs "Wait" signal widget[cite: 1]
+│   │   │
+│   │   ├── services/
+│   │   │   └── api.js              # Axios HTTP client connecting to FastAPI backend[cite: 1]
+│   │   │
+│   │   ├── App.jsx                 # Dashboard stage layout orchestrator[cite: 1]
+│   │   ├── index.css               # Tailwind CSS styles
+│   │   └── main.jsx                # React entrypoint
+│   │
+│   ├── package.json                # Frontend packages (react, chart.js, leaflet, tailwindcss)[cite: 1]
+│   └── tailwind.config.js          # Tailwind CSS styling configuration
+│
+└── README.md                       # Project setup and hackathon presentation guide[cite: 1]
